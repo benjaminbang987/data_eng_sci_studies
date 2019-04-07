@@ -3,11 +3,17 @@
 ## Ben's blog/write-up of the tasks/projects/lessons
 
 ### Resources:
+#### Blogs:
 * [The Rise of Data Engineer](https://medium.freecodecamp.org/the-rise-of-the-data-engineer-91be18f1e603)
 * [Data Engineer Resources](https://www.analyticsvidhya.com/blog/2018/11/data-engineer-comprehensive-list-resources-get-started/)
 * [Popular Questions about Data Engineering Career Path](https://blog.k2datascience.com/popular-questions-about-the-data-engineering-career-path-100a4b6297e2)
 * [A Beginner’s Guide to Data Engineering — Part I](https://medium.com/@rchang/a-beginners-guide-to-data-engineering-part-i-4227c5c457d7)
 * [Lambda Architecture: How to Build a Big Data Pipeline](https://towardsdatascience.com/lambda-architecture-how-to-build-a-big-data-pipeline-part-1-8b56075e83fe?source=placement_card_footer_grid---------2-43)
+
+#### Books:
+* Designing Data-Intensive Applications
+* Clean Code
+
 
 ### Topics: 
 
