@@ -11,15 +11,16 @@
 * [Lambda Architecture: How to Build a Big Data Pipeline](https://towardsdatascience.com/lambda-architecture-how-to-build-a-big-data-pipeline-part-1-8b56075e83fe?source=placement_card_footer_grid---------2-43)
 
 #### Books:
-* Designing Data-Intensive Applications
-* Clean Code
+* [Designing Data-Intensive Applications](https://pdfs.semanticscholar.org/24f1/4e3b30012c2bc7e3abbdb16e2b3365d6f920.pdf)
+* [Clean Code](https://www.investigatii.md/uploads/resurse/Clean_Code.pdf)
+* Introduction to Machine Learning with Python
 
 
-### Topics: 
+### Topics (Data Eng): 
 
 1. Relational Database 
-    * PostgreSQL
-    * Normalized/Denormalized Data Tables/Schemas
+   1. PostgreSQL
+   2. Normalized/Denormalized Data Tables/Schemas
 2. Scheduler/ Automation of the Data Pipelines
   	1. Apache Airflow
 3. Cloud Database
@@ -28,3 +29,13 @@
 4. Querying Big Data
   	1. Apache Spark
   	2. Snowflake/Redshift
+
+
+### Topics (Data Sci):
+
+1. Review of the Regression Models & Cost Functions + Pros and Cons of each model
+2. Review of the Classification Models & Cost Functions + Pros and Cons of each model
+3. Dimensionality Reduction for Images, Videos and Big Texts (Tensorflow introduction for images and videos)
+4. Clustering
+   1. Density-Based Sptial Clustering of Applications with Noise (DBSCAN)
+   2. Clustering using Mixture Models
