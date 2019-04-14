@@ -5,7 +5,7 @@ Documentation about learnings related to relational database systems.
 
 Relational Database is: A relational database is a type of database. It uses a structure that allows us to identify and access data in relation to another piece of data in the database. Often, data in a relational database is organized into tables. 
 
-##### Pros and Cons of RDB
+#### Pros and Cons of RDB
 [A Review of Different Database Types: Relational versus Non-Relational](https://www.dataversity.net/review-pros-cons-different-databases-relational-versus-non-relational/#)
 
 1. Pros
@@ -31,7 +31,7 @@ Non-Relational / NoSQL:
     5. Limited indexing.
 
 
-##### Non-Relational Stores in Short
+#### Non-Relational Stores in Short
 
 There are many different kinds of non-relational stores; Serra gave an overview of the main types. In today’s market the numerous commercial offerings have created a number of platforms that actually combine different data models into one system. According to Serra, Key-Value Stores offer very high speed via the least complicated data model. Anything can be stored as a value, as long as each value is associated with a key or name.
 
@@ -41,7 +41,7 @@ Document Stores contain data objects that are inherently hierarchical, tree-like
 
 He also touched on Graph Stores, remarking that “Graph Stores are totally different from what we’ve talked about so far. They are not typically scalable, but do have some great use cases and they are really good for storing relationships.”
 
-##### Use Cases for NoSQL Categories
+#### Use Cases for NoSQL Categories
 
 Serra discussed a number of different non-relational use cases as well during his presentation, a few of these mentioned were:
 
@@ -50,7 +50,7 @@ Document Stores: [MongoDB] Have a flexible schemas, dynamic queries, defined ind
 Wide-Column Stores: [Cassandra] Come with real-time querying of random (non-sequential) data, huge number of writes, sensors. Examples: Web analytics, time series analytics, real-time data analysis, banking industry.
 “You may not have the data volume for NoSQL,” said Serra.  “But there are other reasons to use NoSQL. Such examples include storing semi-structured data, schema-less data models, and a need for high availability data.”
 
-##### Uses for Different Database Technologies
+#### Uses for Different Database Technologies
 
 Serra also talked about many of the reasons why an organization would use SQL or NoSQL. He said that for traditional OLTP business systems (i.e. ERP, CRM, In-house app) relational databases (RDBMS) are still the primary and most efficient choice. Other choices he discussed were:
 
@@ -59,7 +59,7 @@ Web and mobile global OLTP applications work well with non-relational database (
 Data lakes are good for Hadoop.
 Relational and scalable OLTP would work well with NewSQL.
 
-##### Summary When to Choose NoSQL
+#### Summary When to Choose NoSQL
 
 When and where an enterprise would want to choose a non-relational or NoSQL system over a more traditional relational platform:
 
@@ -121,4 +121,30 @@ Personal Opinion:
 For a table that shows the differences between OLTP and OLAP, refer to: https://www.datawarehouse4u.info/OLTP-vs-OLAP.html.
 
 ### Denormalized Schemas
-[Normalized vs. Denormalized Databases](https://medium.com/@katedoesdev/normalized-vs-denormalized-databases-210e1d67927d)
+[Schema types: Data retrieval performance vs redundant storage](https://www2.microstrategy.com/producthelp/10.4/ProjectDesignGuide/WebHelp/Lang_1033/Content/ProjectDesign/Schema_types__Data_retrieval_performance_versus_re.htm)
+[When and How You Should Denormalize a Relational Database](https://rubygarage.org/blog/database-denormalization-with-examples)
+[Star and SnowFlake Schema in Data Warehousing](https://www.guru99.com/star-snowflake-data-warehousing.html)
+
+
+#### Why denormalize in the first place?
+1. To enhance query performance
+2. To make a database more convenient to manage
+3. To facilitate and accelerate reporting
+
+SnowFlake schema is an extension of a Star schema: it adds additional dimensions.
+
+Characteristics of Star Schema:
+  * Every dimension in a star schema is represented with the only one-dimension table.
+  * The dimension table should contain the set of attributes.
+  * The dimension table is joined to the fact table using a foreign key
+  * The dimension table are not joined to each other
+  * Fact table would contain key and measure
+  * The Star schema is easy to understand and provides optimal disk usage.
+  * The dimension tables are not normalized. For instance, in the above figure, Country_ID does not have Country lookup table as an OLTP design would have.
+  * The schema is widely supported by BI Tools
+
+Characteristics of Snowflake Schema:
+  * The main benefit of the snowflake schema it uses smaller disk space.
+  * Easier to implement a dimension is added to the Schema
+  * Due to multiple tables query performance is reduced
+  * The primary challenge that you will face while using the snowflake Schema is that you need to perform more maintenance efforts because of the more lookup tables.
