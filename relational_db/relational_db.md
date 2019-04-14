@@ -73,8 +73,7 @@ Serra: “RDBMS is for enterprise OLTP and ACID compliance, or databases under 1
 
 ### Normalization/ Normal Forms (3NF)
 Most of the content is copied from either of those two links.
-[Description of Normalization](https://support.microsoft.com/en-us/help/283878/description-of-the-database-normalization-basics)
-
+[Description of Normalization](https://support.microsoft.com/en-us/help/283878/description-of-the-database-normalization-basics) <br/>
 [Relevant Link for Normalization](https://www.essentialsql.com/get-ready-to-learn-sql-database-normalization-explained-in-simple-english/)
 
 Normalization is the process of organizing data in a database. This includes creating tables and establishing relationships between those tables according to rules designed both to protect the data and to make the database more flexible by eliminating redundancy and inconsistent dependency.
@@ -112,8 +111,7 @@ Personal Opinion:
 
 
 ### OLTP (Online Transactional Processing) vs OLAP (Online Analytical Processing)
-[OLTP vs. OLAP](https://www.datawarehouse4u.info/OLTP-vs-OLAP.html)
-
+[OLTP vs. OLAP](https://www.datawarehouse4u.info/OLTP-vs-OLAP.html) <br/>
 [OLTP vs OLAP: What's the Difference?](https://www.guru99.com/oltp-vs-olap.html)
 
 - OLTP (On-line Transaction Processing) is characterized by a large number of short on-line transactions (INSERT, UPDATE, DELETE). The main emphasis for OLTP systems is put on very fast query processing, maintaining data integrity in multi-access environments and an effectiveness measured by number of transactions per second. In OLTP database there is detailed and current data, and schema used to store transactional databases is the entity model (usually 3NF). 
@@ -123,10 +121,8 @@ Personal Opinion:
 For a table that shows the differences between OLTP and OLAP, refer to: https://www.datawarehouse4u.info/OLTP-vs-OLAP.html.
 
 ### Denormalized Schemas
-[Schema types: Data retrieval performance vs redundant storage](https://www2.microstrategy.com/producthelp/10.4/ProjectDesignGuide/WebHelp/Lang_1033/Content/ProjectDesign/Schema_types__Data_retrieval_performance_versus_re.htm)
-
-[When and How You Should Denormalize a Relational Database](https://rubygarage.org/blog/database-denormalization-with-examples)
-
+[Schema types: Data retrieval performance vs redundant storage](https://www2.microstrategy.com/producthelp/10.4/ProjectDesignGuide/WebHelp/Lang_1033/Content/ProjectDesign/Schema_types__Data_retrieval_performance_versus_re.htm) <br/>
+[When and How You Should Denormalize a Relational Database](https://rubygarage.org/blog/database-denormalization-with-examples)<br/>
 [Star and SnowFlake Schema in Data Warehousing](https://www.guru99.com/star-snowflake-data-warehousing.html)
 
 
