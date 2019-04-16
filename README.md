@@ -29,7 +29,8 @@
 4. Querying Big Data
   	1. Apache Spark
   	2. Snowflake/Redshift
-
+5. Threading
+   1. [An Intro to Threading in Python](https://realpython.com/intro-to-python-threading/#starting-a-thread)
 
 ### Topics (Data Sci):
 
