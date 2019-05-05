@@ -29,7 +29,10 @@
 4. Querying Big Data
   	1. Apache Spark
   	2. Snowflake/Redshift
-
+5. Various Tools
+    1. Docker Containers
+    2. Kafka
+    3. Kubernetes
 
 ### Topics (Data Sci):
 

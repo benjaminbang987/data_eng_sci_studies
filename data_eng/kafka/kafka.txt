@@ -1,0 +1,2 @@
+Documentation about learnings related to Kafka.
+

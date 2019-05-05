@@ -1,0 +1,5 @@
+Documentation about learnings related to querying big data.
+
+
+[Spark](https://mapr.com/blog/spark-101-what-it-what-it-does-and-why-it-matters/)
+

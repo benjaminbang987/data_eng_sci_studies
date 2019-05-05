@@ -1,0 +1,5 @@
+Documentation about learnings related to cloud db.
+Learnings about S3/Azure/GCP.
+1. What are they
+2. How to access them
+3. What their best usages are
