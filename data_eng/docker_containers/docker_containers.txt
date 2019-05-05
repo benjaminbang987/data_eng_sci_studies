@@ -1,2 +1,0 @@
-Documentation about learnings related to docker containers.
-

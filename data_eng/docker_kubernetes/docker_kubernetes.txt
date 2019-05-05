@@ -1,0 +1,117 @@
+Documentation about learnings related to docker containers.
+
+Resources:
+1. (Introduction to Microservices, Docker, and Kubernetes)[https://www.youtube.com/watch?v=1xo-0gCVhTU]
+
+
+What is Docker:
+"Containers are a way to package software in a format that can run insolated on a shared operating system. Unlike VMs, containers do not bundle a full operating system - only libraries and settings required to make the software work are needed. This makes for efficient, lightweight, self-contained systems and guarantees that software will always run the same, regardless of where it's deployed."
+
+
+Docker vs VM
+1. VMs have Guest OS for every app - can be very hefty
+2. Docker works as a connecting layer to Host OS for ALL apps. It can share Bins/Libs, but essentially, Docker frees the App's requirement of dedicated OS like a VM. (With Docker, you can share the bins/libs as well).
+
+
+Dockerfile
+    - Describes the build process for an image
+    - Can be run to automatically create an image
+    - Contains all the commands necessary to build the image and run your application
+    - that image can then be run on any computer that has Docker
+
+Say we have microservices architecture, and also containerized the applications, how do we run it? - Container orchestrator: Kubernetes (or Azure Container Service, Amazon ECS, Marathon, Docker Swarm, Google Container Enginer (which just runs Kubernetes on the background)) !
+
+Kubernetes: is an open-source system for automating deployment, scaling, and management of containerized applications.
+
+
+Kubernetes Vocab
+- Node
+    - Kubelet
+    - Communicates with master
+    - Runs pods
+- Pod
+    - Runs 1+ containers
+    - Exists on a node
+- Service
+    - Handles requests
+    - Usually a load balancer
+- Deployment
+   - Defines desired state - kubernetes handles the rest
+
+
+Installing Kubernetes: https://kubernetes.io/docs/tasks/tools/install-minikube/.
+
+Specification is written in either YAML or JSON.
+
+For service: know the differences between port, targetPort and nodePort.
+    - port: only accessible inside the cluster.
+    - nodePort: port accessible ouside the cluster.
+    - targetPort: Port to forward inside the pod
+
+
+Prep required for the Kubernetes example.
+1. (Download Docker)[https://docs.docker.com/v17.12/docker-for-mac/install/#download-docker-for-mac]
+2. (Download minikube)[https://kubernetes.io/docs/tasks/tools/install-minikube/]
+    - Follow the steps in that link to install a Hypervisor (VirtualBox in my case), Kubectl (brew install kubernetes-cli), and minikube.
+
+Test docker run:
+  1. ```sudo docker run -p 3000:80 tutum/hello-world``` to host a website with address 3000 to show hello-world (tutum)
+  2. ```sudo docker run -d -p 3000:80 tutum/hello-world``` - allows for detached. To kill this detached app, `sudo docker ps` to find out the Container ID and `sudo docker kill #Container_ID` to kill the container.
+
+To deploy a yaml file for kubernetes:
+  1. Run `minikube start`
+  2. CD into the directory that has the deployment yaml.
+  3. Run the following code: ``` sudo kubectl create -f kuber_deployment.yaml```
+  4. Check the pods by `sudo kubectl get pods`.
+  5. Get the deployment by `sudo kubectl get deployments`
+  6. Running the dashboard `minikube dashboard`
+
+
+Potential bugs:
+  1. VM/minikube related failures in `minikube start`. ```
+  🔥  Creating virtualbox VM (CPUs=2, Memory=2048MB, Disk=20000MB) ...
+  💣  Unable to start VM: create: creating: Error setting up host only network on machine start: The host-only adapter we just created is not visible. This is a well known VirtualBox bug. You might want to uninstall it and reinstall at least version 5.0.12 that is is supposed to fix this issue
+
+  😿  Sorry that minikube crashed. If this was unexpected, we would love to hear from you:
+  👉  https://github.com/kubernetes/minikube/issues/new```
+  or
+  ``` ⌛  Waiting for pods: apiserver proxy
+  💣  Error restarting cluster: wait: waiting for k8s-app=kube-proxy: timed out waiting for the condition
+
+  😿  Sorry that minikube crashed. If this was unexpected, we would love to hear from you:```.
+  Fix: reinstall VM and/or `minikube delete` and restart.
+  2. Failed to pull image "benjaminbang/exampleapp:v1.0.0": rpc error: code = Unknown desc = Error response from daemon: pull access denied for benjaminbang/exampleapp, repository does not exist or may require 'docker login'
+
+
+
+What if you wanted to create your own app and contaniarize it + deploy it using Kubernetes? (link: https://nodejs.org/en/docs/guides/nodejs-docker-webapp/)
+
+1. Create a directory - in my case `mkdir exampleapp`
+2. `npm init` (to set it up, run `brew install node`)
+    - type enter multiple times until the prompt asks you `Is this OK? (yes)` and enter again to say yes.
+3. `npm i express --save` - this installs express and saves it.
+4. change the package.json's script to be "start": "node index.js" and create index.js
+5. copy the script from the link above and paste it into the index.js
+6. Create a Dockerfile inside the directory
+
+
+
+Dockerfile
+1. Always starts with `From`. 
+    - layer hashes and caches (first time it downloads all the dependencies of the existing package dependency, but for subsequent uses, if the dependent packages didn't update, it will not reinstall everything from scratch)
+2. WOKRDIR - creates an app directory
+3. COPY - package.json AND package-lock.json as well (`COPY package.json .` and `COPY package-lock.json .`)
+    - sets up the package dependencies so that when RUN happens, it will install all the necessary packages
+4. RUN
+    - `npm install`: install all the required packages inside the container and inside the working directory 
+5. `COPY . .` - copies the remainder of the files
+6. EXPOSE
+    - exposes a port (8080 in example case)
+7. CMD
+    - `[ "npm", "start" ]`
+    - basic command. First arg is the name of the command and all subsequent elements in the array are arguments for the command
+8. Dockerignore `touch .dockerignore` and add `node modules` so that docker ignores these sub-directories
+9. `sudo docker build -t benjaminbang/exampleapp:v1.0.0 .`
+10. To actually push it to the docker hub: `sudo docker push benjaminbang/exampleapp:v1.0.0` (just like github)
+
+
