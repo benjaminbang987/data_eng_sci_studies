@@ -29,7 +29,9 @@
 4. Querying Big Data
   	1. Apache Spark
   	2. Snowflake/Redshift
-5. Various Tools
+5. Threading
+   1. [An Intro to Threading in Python](https://realpython.com/intro-to-python-threading/#starting-a-thread)
+6. Various Tools
     1. Docker Containers
     2. Kafka
     3. Kubernetes
