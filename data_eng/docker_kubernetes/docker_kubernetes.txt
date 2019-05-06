@@ -113,5 +113,3 @@ Dockerfile
 8. Dockerignore `touch .dockerignore` and add `node modules` so that docker ignores these sub-directories
 9. `sudo docker build -t benjaminbang/exampleapp:v1.0.0 .`
 10. To actually push it to the docker hub: `sudo docker push benjaminbang/exampleapp:v1.0.0` (just like github)
-
-
