@@ -1,0 +1,159 @@
+1. What is HTML?
+  1. HTML is a markup language for creating web documents and pages
+  2. Hyper Text Markup Language
+  3. NOT a programming language ( uses a set of markup tags)
+2. HTML Tags
+  1. HTML tags define HTML element which is an individual component of an HTML document or web page
+  2. Keywords surrounded by angle brackets
+3. Page Structure
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Webpage</title>
+    </head>
+    <body>
+        <p>This is my first web page</p>
+    </body>
+</html>
+
+4. Common Doctype declarations
+
+HTML5
+<!DOCTYPE html>
+
+HTML4.01 (DTD = document type definition)
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+
+XHTML 1.0 (extensive hyper text markup language)
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+5. Closing Tags
+
+Not all tags have closing tags like <p></p>
+
+Some tags can close themselves like line-break tag - <br>
+Self closing line-break tag - <br />
+
+6. Common Tags
+
+Paragraph<p>
+Headings <h1> - <h6>
+Link <a>
+Image <img>
+Unordered List <ul>
+Ordered List <ol>
+List Item <li>
+Table <table>
+Form <form>
+Input <input>
+Button <button>
+Line Break <br>
+Horizontal Rule <hr>
+Division <div>
+HTML <html>
+Head <head>
+Body <body>
+Strong <strong> - increase font weight
+
+7. Attributes
+
+Tags can also have "attributes" which include extra bits of information about that tag/element.
+Attributes appear in the tag inside of quotation marks.
+
+<tag attribute="value"></tag>
+<a href="http://google.com">Click</a>
+<h1 id="myHeading"></h1>
+
+Could be both sigle/double quotes - usually double quotes.
+
+8. Block Level Elements
+
+Always starts on a new line
+Takes up full available width
+
+<div>
+<h1> - <h6>
+<p>
+<form>
+
+9. Inline level Elements
+  - Does not start on a new line
+  - Takes only width necessary
+
+<span>
+<a>
+<img>
+
+
+10. Creating a Web Page
+  - Use a text editor or IDE to create your HTML document
+  - Add elements, tags, attributes, etc
+  - Save file with a .html extension
+  - Open it up in a brower - no server needed
+
+
+
+
+11. Create your first webpage using HTML
+
+<h1>Links</h1>
+<a href="http://google.com" target="_blank">>Link to Google</a>
+
+
+taget="_blank": link click opens up a new tab
+
+
+12. Lists and tables
+
+13. Basic Styling - Project on Basic CSS
+
+<div id="container">
+</div>
+
+id vs class: id is usually used once whereas class is used multiple times (also in .css)
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+HTML 5
+
+
+- New Tags & Elements (<div>, <span>)
+- Syntax is no longer based on SGML, but is backward compatible with earlier versions of HTML
+
+New APIs
+HTML5 specifies scripting application programming interfaces that can be used with JavaScript
+  - Canvas & SVG
+  - Drag and Drop
+  - Web Storage
+  - Geolocation (good for cross-platform app)
+  - IndexedDB (low-level API for client side storage of structured data)
+  - Web Audio
+  - Editable Content (take virtually any content and make it editable.)
+  - App Cache
+
+
+
+1. Web Storage
+  - Local Storage
+    - items stored until deleted
+    - setItem: has to be string
+  - Session Storage
+    - items stored only during the session
+  1.1. Console Log
+    - you can check it with F12 in Chrome (fn + f12 key)
+    - document.getElementById('name').innerHTML=localStorage.name
+    - document.getElementById.name.innerHTML=sessionStorage.name
+  1.2. to check the session/local storage, check application tab in (fn + f12 key)
+
+
+
+Drag and Drop

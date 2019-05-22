@@ -1,0 +1,122 @@
+Documentation about learnings from Django Tutorial
+
+Tutorial: https://docs.djangoproject.com/en/2.2/intro/tutorial01/
+
+Setup - the usual: create virtual env, and pip install the necessary package (Django).
+
+This: `django-admin startproject mysite` creates a directory with a few useful files to
+initialize the site.
+
+Command line script: startproject creates..
+
+```
+mysite/
+    manage.py
+    mysite/
+        __init__.py
+        settings.py
+        urls.py
+        wsgi.py
+```
+
+1. Manage.py
+    - file that runs the main function for the Django app that you're trying to build
+    - does the same thing as django-admin, but also sets DJANGO_SETTINGS_MODULE env var so that it points to your project's settings.py
+    - usage:
+    ``` $ manage.py <command> [options]
+        $ python -m django <command> [options]
+    ```
+2. Settings.py
+    - sets up the local environmental variables or lists out the installed_apps that were initialized from the startproject
+
+
+
+
+3. The development server
+
+Following command will start the Django development server.
+
+``` $ python manage.py runserver ```
+
+site to view your deployment: http://127.0.0.1:8000/.
+
+You can also designate the port like:
+``` $ python manage.py runserver 8080 ```.
+
+
+From the website:
+
+Projects vs. apps
+
+What’s the difference between a project and an app? An app is a Web application that does something – e.g., a Weblog system, a database of public records or a simple poll app. A project is a collection of configuration and apps for a particular website. A project can contain multiple apps. An app can be in multiple projects.
+
+
+4. Poll App
+
+Run ```$ python manage.py startapp polls``` to autogenerate a sample poll app.
+
+
+* View
+
+For the first view, go to the polls/views.py and insert
+```
+from django.http import HttpResponse
+
+
+def index(request):
+    return HttpResponse("Hello, world. You're at the polls index.")
+```
+Apparently, this is the simplest view possible in Django.
+
+To call this view, we need to map it to a URL - and for this, we need a URLconf.
+
+Create a urls.py in the same directory as:
+```
+from django.urls import path
+
+from . import views
+
+urlpatterns = [
+    path('', views.index, name='index'),
+]
+```
+This uses the path from django.urls package, which we will use again in the mysite `urls.py`.
+
+Insert `path('polls/', include('polls.urls'))` in the `urlpatterns` in `mysite/urls.py`.
+Also, along with `path`, import `include` as well.
+
+The `include()` function allows referencing other URLconfs. Whenever Django encounters include(), it chops off whatever part of the URL matched up to that point and sends the remaining string to the included URLconf for further processing.
+
+`include()` makes it easy to plug-and-play URLs. 
+
+* Database
+    - Refresh your memory on how to setup a postgresql database and create a database for django_app.
+
+* Time
+    - Change the TIME_ZONE in the settings.py
+
+* Migrate tables for Settings
+
+```$ python manage.py migrate```
+
+Run `SELECT * FROM pg_catalog.pg_tables;` to confirm 
+
+
+* Making changes to the models
+    - go to models.py and make changes (add classes that are sub-classes of django.db.models)
+    - once the classes are made, you can see what sql transforms are necessary to create tables/adjust existing tables - run `python manage.py makemigrations polls` to make the migration and run `python manage.py sqlmigrate polls 0001` where 0001 refers to the migration version created.
+    - Running `python manage.py sqlmigrate polls 0001` will give you the tables that should be created/modified.
+    - To run tests, run `python manage.py check;`.
+    - Once you confirmed that you don't have problems, run `python manage.py migrate`.
+    - "Migrations are very powerful and let you change your models over time, as you develop your project, without the need to delete your database or tables and make new ones - it specializes in upgrading your database live, without losing data. We’ll cover them in more depth in a later part of the tutorial, but for now, remember the three-step guide to making model changes: (1) Change your models (in models.py). (2) Run python manage.py makemigrations to create migrations for those changes. (3) Run python manage.py migrate to apply those changes to the database."
+
+* Playing with the API
+
+
+
+
+
+
+
+
+

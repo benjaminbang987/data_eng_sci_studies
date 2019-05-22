@@ -1,0 +1,37 @@
+Documentation from following the class: https://cs61bl.org/su16/index.html.
+
+Lab 1 - 4
+
+Lab2
+1. Primitives
+2. Class, constructors
+3. Instance variables, instance methods
+4. Getter and Setter methods
+
+Lab3
+1. If .. Else
+2. While (condition) {}
+3. For(initialization; condition/test; increment) {}
+4. Break/Continue statement
+5. Multidimensional Arrays
+6. Do ... while statements (inverted while statement): `do {} while (_condition_);
+7. switch Statements:
+  switch (x) {
+    case 0: amount = "zero";
+      break;
+    case 1: amount = "one";
+      break;
+    default: amount = "greater than 5";
+      break;
+  }
+  one thing to watch out for switch statement is that it's a fall-through method until the `break` statement. If `break` exists only at the end, then all the conditions/functions will be evaluated + run.
+8. Labeled continue/break Statement
+outerloop:
+for (init; condition) {
+  innerloop:
+  for (init; condition) {
+    
+  }
+}
+
+
