@@ -1,0 +1,125 @@
+High Performance Python Notes:
+
+# Chapter 1. Understanding Performant Python
+
+
+## 1. The Fundamental Computer System
+
+
+#### 3 basic parts: 
+	* computing units
+	* memory units
+	* connections between them.
+i.e. A standard workstation: Central Processing Unit (CPU) as the computational unit, connected 
+	to both the Random Access Memory (RAM) and the hard drive as two separate memory units.
+	Finally, a bus that provides the connections between all of these parts
+
+
+## 2. Computing Units:
+
+* Ability to transform any bits it receives into other bits or to change the state of the current process.
+* CPUs & GPUs.
+* GPUs gaining popularity due to its intrinsically parallel nature.
+
+##### Major Metrics:
+* Instructions per cycle (IPC): number of operations it can do per cycle
+* Clock Speed: how many cycles it can do in one second
+
+##### IPC:
+* Having high IPC can also drastically affect the computing by changing the level of 
+  vectorization that is possible. Vectorization: CPU is provided with multiple pieces 
+  of data at a time and is able to operate on all of them at once. This sort of CPU
+  instruction is known as SIMD (Single Instruction, Multiple Data).
+
+##### Alternative speed-up methods:
+* physical limitations of making transistors smaller and smaller -> slower improvements
+  of IPC and clock speeds.
+##### Hyperthreading:
+* Virtual second CPU to the host operating system (OS)
+##### Clever Hardware logic:
+* interleave two threads of instructions into the execution units on a single CPU
+* When successful, gains of up to 30% over a single thread can be achieved.
+##### Out-of-order execution:
+* complier to spot some parts of a linear program sequence that do not depend on
+  the results of a previous piece of work, and therefore that both pieces of work
+  could potentially occur in any order or at the same time.
+
+##### Multiple Cores:
+* most important
+* Increases total capability without running into barriers in making each individual unit faster.
+
+##### Amdahl's law:
+* if a program designed to run on multiple cores has some routines that must run on one core,
+  this will be the bottleneck for thew final speedup that can be achieved by allocating more
+  cores.
+
+##### Global Interpreter Lock (GIL):
+* Major hurdle with utilizing multiple cores in Python
+* Only run one instruction at a time, regardless of the # of cores it is currently using
+
+
+## 3. Memory Units
+
+Store bits. Major difference between different memory units is the speed at which they 
+can read/write data. Also, the read/write speed is heavily dependent on the way that data is being used.
+
+I.e. Reading one large chunk of data is faster as opposed to many smaller chunks 
+    (Sequential read vs random data)
+
+On top of read/write speeds, there's also latency (time it takes the device to find the data 
+that is being used)
+
+##### Spinning Hard Drive
+* Long-term storage that persists even when the computer is shut down. Generally has slow read/write
+  speeds because the disk must be physically spun and moved. Degraded performance with random access
+  patterns, but very large capacity.
+##### Solid state hard drive
+* Similar to a spinning HD, with faster read/write speeds but smaller capacity.
+##### RAM
+* Store app code and data. Has fast read/write characteristics and performs well with random access
+  patterns, but is generally limited in capacity
+  (gigabyte range).
+##### L1/L2 Cache 
+* Extremely fast read/write speeds. Data going to the CPU must go through here. Very small capacity
+  (kilobyte range)
+
+## 4. Communication Layers
+
+##### Bus
+* Frontside bus: Connection between the RAM and the L1/L2 cache. It moves data that is ready to be transformed by the
+  processor into the staging ground to get ready for calculation, and moves finished calculations out.
+* External bus: main route from hardware devices to the CPU and system memory
+* Backside bus: cache to CPU
+* Many L1/L2 cache benefits attributed to the faster bus
+* PCI bus (for GPU): connects peripheral device - much slower than the frontside bus
+
+##### Speed: Main property of the bus
+* Bus width: how much data can be moved in one transfer
+* Bus frequency: how many transfers it can do per second
+Big bus width -> help verctorized code
+Small bus width, high bus frequency -> helps code that must do many reads from random parts of memory
+
+## 5. Putting the Fundamental Elements Together
+
+## 6. Idealized Computing VS the Python Virtual Machine
+
+
+Example to better understand the concepts:
+```
+import math
+def check_prime(number):
+    sqrt_number = math.sqrt(number)
+    for i in xrange(2, int(sqrt_number)+1):
+        if (number_float / i).is_integer():
+            return False
+    return True
+```
+
+##### Idealized computing
+
+* `number` stored in RAM
+* To calculate `sqrt_number` and `number_float`, send that value over to the CPU.
+* Ideally, send the value once, gets stored in CPU's L1/L2 cache and the CPU would od the cals and then send the values 
+  back to RAM to get stored. Ideal because we minimized the # of reads of the value of `number` from RAM and opted for
+  reads from the L1/L2 cache. And we also minimized the number of data transfers via frontside bus, opting
+  for faster backside bus instead (connects various caches to the CPU).
