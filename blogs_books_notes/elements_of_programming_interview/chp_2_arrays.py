@@ -341,4 +341,3 @@ def spiral_order_book_sol2(square_matrix: [[int]]) -> [int]:
     row_end = len(matrix) - 1
     col_end = len(matrix[0]) - 1
     """
-
