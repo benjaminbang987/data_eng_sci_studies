@@ -336,4 +336,9 @@ def spiral_order_book_sol2(square_matrix: [[int]]) -> [int]:
     """
     Returns the spiral ordered elements of the square matrix (book solution 2)
 
+    Try solving this using while loop and two pointers to the end (col_end and row_end):
+    col_start = row_start = 0
+    row_end = len(matrix) - 1
+    col_end = len(matrix[0]) - 1
     """
+

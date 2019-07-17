@@ -81,7 +81,7 @@ Rect = collections.namedtuple('Rect', ('x', 'y', 'width', 'height'))
 
 
 """
-4.11
+4.11 Rectangle Intersection
 Write a program which tests if two rectangles have a nonempty intersection. If the intersection is nonempty,
         return the rectangle formed by their intersection.
 
