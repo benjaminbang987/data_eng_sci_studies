@@ -1,4 +1,4 @@
-""" Chapter 2. Arrays """
+""" Chapter 5. Arrays """
 
 """
 Get, set: O(1)
