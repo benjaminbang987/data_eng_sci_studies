@@ -1,4 +1,4 @@
-""" Chapter 1. Primitive Types """
+""" Chapter 4. Primitive Types """
 
 """
 Python has a number of built-in types: numerics (e.g. integer), sequence(e.g. list), mappings(e.g. dict), as well as 
