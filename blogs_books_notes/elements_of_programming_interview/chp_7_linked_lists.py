@@ -137,14 +137,5 @@ def reverse_sublist_kev(L: ListNode, s: int, f: int) -> ListNode:
     return dummy_head.next
 
 
-def reverse_sublist_book(L: ListNode, s: int, f: int) -> ListNode:
-    dummy_head = sublist_head = ListNode(0, L)
-    for _ in range(1, s):
-        sublist_head = sublist_head.next
-    sublist_iter = sublist_head.next
-    for _ in range(f - s):
-        temp = sublist_iter.next
-        sublist_iter.next, temp.next, sublist_head.next = (temp.next,
-                                                           sublist_head.next,
-                                                           temp)
-    return dummy_head.next
+# retry (7/28/2019)
+def reverse_sublist(L: ListNode, s: int, f: int) -> ListNode:
