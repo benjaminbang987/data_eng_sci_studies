@@ -161,7 +161,7 @@ ll_to_list(l3)
 
 
 """
-7.2. Test for Cyclicity
+7.3. Test for Cyclicity
 Although a linked list is supposed to be a sequence of nodes ending in null, it is possible to create a cycle in a
     linked list by making the next field of an element reference to one of the earlier nodes.
 

@@ -161,7 +161,47 @@ Know your queue libraries:
 """
 
 """
-8.6.
+8.6. Compute binary tree nodes in order of increasing depth
 
+Each node in a binary tree has a depth, which is its distance from the root.
+
+Given a binary tree, return an array consisting of the keys at the same level. Keys should appear in the order of the 
+    corresponding nodes' depths, breaking ties from left to right. For example, you should return
+    <<314>, <6,6>, <271,561,2,271>, <28,0,3,1,28>, <17,401,257>, <641>> for the binary tree figure 9.1. on pg 118.
+
+
+	        314                  depth: 0
+	    /         \              
+	   6           6             depth: 1
+	  / \         / \            
+	271 561     2    271         depth: 2
+   / \    \      \      \        
+ 28  0    3      1      28       depth: 3
+         /      / \              
+        17    401  257           depth: 4
+                \                
+                641              depth: 5
+
+Hint: First think about solving this problem with a pair of queues.
 """
 
+class BinaryTreeNode:
+    def __init__(self, data=None, left=None, right=None):
+        self.data, self.left, self.right = data, left, right
+
+
+def binary_tree_depth_order(tree: BinaryTreeNode) -> List[List[int]]:
+    result = []
+    if not tree:
+        return result
+
+    curr_depth_nodes = [tree]
+    while curr_depth_nodes:
+        result.append([
+            node.data for node in curr_depth_nodes
+        ])
+        curr_depth_nodes = [
+            child for curr in curr_depth_nodes
+            for child in (curr.left, curr.right) if child
+        ]
+    return result
