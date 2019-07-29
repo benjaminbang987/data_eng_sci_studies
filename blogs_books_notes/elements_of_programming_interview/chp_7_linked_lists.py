@@ -56,6 +56,8 @@ def merge_sorted_lls(l1: ListNode, l2: ListNode) -> ListNode:
                 traverse_and_add(cur_l2, cur_l1)
 
 
+# test sets
+
 l1 = ListNode(1, ListNode(2, ListNode(3, ListNode(5, ListNode(6, ListNode(11, ))))))
 l2 = ListNode(4, ListNode(10))
 
@@ -139,3 +141,92 @@ def reverse_sublist_kev(L: ListNode, s: int, f: int) -> ListNode:
 
 # retry (7/28/2019)
 def reverse_sublist(L: ListNode, s: int, f: int) -> ListNode:
+    head_dummy = head_pointer = ListNode(0, L)
+    for _ in range(1, s):
+        head_pointer = head_pointer.next
+    head_iter = head_pointer.next
+    for _ in range(0, f - s):
+        temp = head_iter.next
+        head_pointer.next, temp.next, head_iter.next = (
+            temp,
+            head_pointer.next,
+            temp.next
+        )
+    return head_dummy.next
+
+# test
+l1 = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5, ListNode(6, ListNode(7, )))))))
+l3 = reverse_sublist(l1, 3, 6)
+ll_to_list(l3)
+
+
+"""
+7.2. Test for Cyclicity
+Although a linked list is supposed to be a sequence of nodes ending in null, it is possible to create a cycle in a
+    linked list by making the next field of an element reference to one of the earlier nodes.
+
+Write a program that takes the head of a singly linked list and returns null if there does not exist a cycle, and the
+    node at the start of the cycle, if a cycle is present. (You do not know the length of the list in advance).
+
+Hint: Consider using two iterators, one fast and one slow.
+"""
+
+
+def is_cycle(L: ListNode):
+    """
+    Q: Can you have duplicate values in nodes?
+    A: Yes
+
+    O(n * log n), O(n)
+    This solution is actually wrong - it's not returning the start of the cycle - it's just returning the start of the
+        whole list.
+    """
+    dummy_head = pointer = ListNode(0, L)
+    pointer_list = []
+    while pointer.next and pointer.next not in pointer_list:
+        pointer_list.append(pointer)
+        pointer = pointer.next
+    if pointer.next is None:
+        return
+    else:
+        return dummy_head.next
+
+
+l1 = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5, ListNode(6, ListNode(7, )))))))
+l1.next.next.next.next.next.next.next = l1.next.next.next # linking ListNode(7,) with ListNode(4, ...)
+
+
+def is_cycle_book_my_try(L: ListNode):
+    """
+    O(n) and O(1)
+    fast iterator and slow iterator.
+    1. Figure out whether there is a cycle
+    2. If there is a cycle, figure out the cycle length (C)
+    3. Figure out the node where the cycle begins
+    """
+    def calc_cycle_len(end):
+        start, steps = end, 0
+        while True:
+            steps += 1
+            start = start.next
+            if start == end:
+                break
+        return steps
+    slow_node = fast_node = L
+    while fast_node and fast_node.next and fast_node.next.next:
+        slow_node, fast_node = slow_node.next, fast_node.next.next
+        if slow_node is fast_node:
+            back_node = front_node = L
+            for _ in range(calc_cycle_len(slow_node)):
+                front_node = front_node.next
+            while back_node is not front_node:
+                back_node, front_node = back_node.next, front_node.next
+            return back_node
+    return
+
+
+l3 = is_cycle_book_my_try(l1)
+
+
+
+
