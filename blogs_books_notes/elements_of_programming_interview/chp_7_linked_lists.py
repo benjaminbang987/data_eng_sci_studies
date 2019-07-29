@@ -1,281 +1,231 @@
-""" Chapter 6. Strings """
+""" Chapter 7. Linked Lists"""
 
 """
 Bootcamp:
 
-palindromic string - reads the same when it's reversed.
-"""
 
+Tips:
+* Very often, a problem on lists is conceptually simple, and is more about cleanly coding what's specified, rather than
+    designing an algorithm.
+* Consider using a dummy head (sometimes referred to as a sentinel) to avoid having to check for empty lists. This
+    simplifies code, and makes bugs less likely.
+* It's easy to forget to update next (and previous for double linked list) for the head and tail.
+* Algorithms operating on singly linked lists often benefit from using two iterators, one ahead of the other, or one
+    advancing quicker than the other.
 
-def is_palindromic(s: str) -> bool:
-    # s[~i] for i in [0, len(s) - 1] is s[-(i+1)]
-    # O(n) and O(1)
-    return all(s[i] == s[~i] for i in range(len(s) // 2))
-
-
-"""
-Bootcamp:
-
-Know your string libraries:
-
-The key operators and functions on strings are s[3], len(s), s+t s[2:4], s in t, s.strip(), s.startswith(prefix),
-    s.endswith(suffix), 'Euclid,Axiom 5,Parallel Lines'.split(','), 3 *'01',
-    ','.join(('Benjamin', 'Bang', 'ASA'))
-    s.tolower(), 'Name {name}, Rank {rank}'.format(name='Benjamin', rank=3),
-    chr and ord
-    
-* strings are immutable: operations like s = s[1:] or s+= '123' imply creating a new array of characters that is then
-    assigned back to s. This implies that concatenating a string character n times to a string in a for loop has 
-    O(n^2) times complexity.
-* Simple put, a mutable object can be changed after it is created, and an immutable object can’t. Objects of built-in 
-    types like (int, float, bool, str, tuple, unicode) are immutable. Objects of built-in types like (list, set, dict)
-    are mutable.
 """
 
 """
-6.1 Interconvert strings and integers
+# 7.1 Merge two sorted linked lists.
 
-A string may encode an integer, e.g., "123" encodes 123. In this problem you are to implement methods that take a string 
-    representing an integer and return the corresponding integer, and vice versa. Your code should handle negative
-    values. You cannot use library functions like int in Python. 
+Write a program that takes two lists, assumed to be sorted, and returns their merge. The only field your program can
+    change in a node is its next field.
 
-Implement an integer to string conversion function and a string to integer conversion function. For example, if the 
-    input to the first function is the integer 314, it should return the string "314", and if the input to the second
-    function is the string "314", it should return integer 314.
-    
-Hint: Build the result one digit at a time.
+Hint
 """
 
 
-def int_to_str(int_obj: int) -> str:
-    # O(n^2)
-    # O(n^2)
-    i = 1
-    s = ""
-    while int_obj != int_obj % i + i:
-        i *= 10
-    while int_obj > 0:
-        s = s + "{val}".format(val=int_obj // i)
-        int_obj = int_obj % i
-        i = round(i / 10)
-    return s
-
-import functools
-import string
+class ListNode:
+    def __init__(self, data=0, next=None):
+        self.data = data
+        self.next = next
 
 
-def int_to_str_book(x: int) -> str:
-    is_negative = False
-    if x < 0:
-        x, is_negative = -x, True
-
-    s = []
-    while True:
-        s.append(chr(ord('0') + x % 10))
-        x //= 10
-        if x == 0:
-            break
-
-    # Adds the negative sign back if is_negative
-    return ('-' if is_negative else '') + ''.join(reversed(s))
-
-
-def str_to_int(s: str) -> int:
-    """
-    '1234'
-
-    """
-    return functools.reduce(
-        lambda running_sum, c: running_sum * 10 + string.digits.index(c),
-        s[s[0] == '-':], 0) * (-1 if s[0] == '-' else 1)
-
-
-"""
-6.2 Base Conversion
-
-Write a program that performs base conversion. The input is a string, an integer b1, and another integer b2. The string
-    represents an integer in base b1. The output should be the string representing the integer in base b2. Assume
-    2 <= b1, b2, <=16. Use "A" to represent 10, "B" for 11, ... and "F" for 15.
-
-Hexdigits - 1, 2, 3, 4, .. 8, 9, a, b, c, d, e, f, A, B, C, D, E, F
-    
-Ex:
-"615", b1 = 7, b2 = 13. Result "1A7"
-(6 * 7 ** 2 + 1 * 7 + 5 = 1 * 13 ** 2 + 10 * 13 + 7  = 306)
-"""
-import string
-
-
-# fail
-def base_cv(bstr, b1, b2):
-    # brute force
-    running_sum = 0
-    string_len = len(bstr) - 1
-    for b in bstr:
-        running_sum = string.digits.index(b) * b1 ** string_len + running_sum
-        string_len -= 1
-    def max_p(num, base):
-        p1 = 0
-        while base ** (p1 + 1) < num and p1 <= 15:
-            p1 += 1
-        return num - base ** (p1), p1
-    power_list = []
-    while running_sum > 0:
-        running_sum, p1 = max_p(running_sum, b2)
-        power_list.append(chr(ord('0') + p1))
-    num_dict = {
-        '10': 'A',
-        '11': 'B',
-        '12': 'C',
-        '13': 'D',
-        '14': 'E',
-        '15': 'F'
-    }
-    for i in range(len(power_list)):
-        try:
-            power_list[i] = num_dict[power_list[i]]
-        except KeyError:
-            pass
-    return ''.join(power_list)
-
-
-# after hint: use modulo
-def base_cv2(bstr, b1, b2):
-    # doesn't account for negative strings..
-    running_sum = 0
-    string_len = len(bstr) - 1
-    for b in bstr:
-        running_sum = string.digits.index(b) * b1 ** string_len + running_sum
-        string_len -= 1
-    list_b2 = []
-    num_dict = {
-        10: 'A',
-        11: 'B',
-        12: 'C',
-        13: 'D',
-        14: 'E',
-        15: 'F'
-    }
-    while running_sum > 0:
-        running_sum, p2 = running_sum // b2, running_sum % b2
-        try:
-            list_b2.append(num_dict[p2])
-        except KeyError:
-            list_b2.append(chr(ord('0') + p2))
-    return ''.join(reversed(list_b2))
-
-
-# book solution
-def base_cv_book(bstr, b1, b2):
-    def construct_from_base(num_as_int, base):
-        return ('' if num_as_int == 0 else
-                construct_from_base(num_as_int // base, base) +
-                string.hexdigits[num_as_int % base].upper())
-    is_neg = bstr[0] == '-'
-    num_as_int = functools.reduce(
-        lambda x, c: x * b1 + string.hexdigits.index(c.lower()),
-        bstr[is_neg:],
-        0)
-    return ('-' if is_neg else '') + ('0' if num_as_int == 0 else
-                                      construct_from_base(num_as_int, b2))
-
-
-"""
-6.3 Replace and Remove
-
-Write a program which takes as input an array of characters and removes each 'b' and replaces each 'a' by two 'd's.
-    Specifically, along with the array, you are provided an integer-valued size. Size denotes the number of entries
-    of the array that the operation is to be applied to. You do not have to worry about preserving subsequent entries.
-    For example, if the array is <a, b, a, c, >, and the size is 4, then you can return <d, d, d, d, c>. You can assume
-    there is enough space in the array to hold the final result.
-
-Hint: consider performing multiple passes on s.
- 
-"""
-
-test_list = ['a', 'b', 'a', 'c', None]
-test_list_2 = ['a', 'a', 'b', 'c', 'b', 'c']
-def rep_and_rem(size: int, array_of_strings: [str]) -> [str]:
-    # first loop to remove 'b'
-    # second loop to replace ['a'] with ['d', 'd']
-    # O(n), O(n)
-    # this is wrong, since it's not altering the input array
-    new_list = []
-    for val in array_of_strings[:size]:
-        if val == 'a':
-            new_list.append('d')
-            new_list.append('d')
-        elif val != 'b':
-            new_list.append(val)
-    return new_list
-
-
-def rep_and_rem_book(size: int, array_of_strings: [str]) -> int:
-    """book solution - reproduced after reading the solution"""
-    write_idx, a_count = 0, 0
-    for i in range(size):
-        if array_of_strings[i] != 'b':
-            array_of_strings[write_idx] = array_of_strings[i]
-            write_idx += 1
-        if array_of_strings[i] == 'a':
-            a_count += 1
-    #
-    cur_idx = write_idx - 1
-    write_idx += a_count - 1
-    final_size = write_idx + 1
-    #
-    while cur_idx >= 0:
-        if array_of_strings[cur_idx] == 'a':
-            array_of_strings[write_idx - 1: write_idx + 1] = 'dd'
-            write_idx -= 2
+# failed solution - 20 minutes
+def merge_sorted_lls(l1: ListNode, l2: ListNode) -> ListNode:
+    cur_l1 = l1
+    cur_l2 = l2
+    def traverse_and_add(cur_l1, cur_l2):
+        l1_next = cur_l1.next
+        l2_next = cur_l2.next
+        cur_l1.next = cur_l2
+        cur_l2.next = l1_next
+        cur_l1 = l1_next
+        cur_l2 = l2_next
+    while cur_l1.data or cur_l2.data:
+        if cur_l2.next is None:
+            if cur_l2.data > cur_l1.data and cur_l2.data < cur_l1.next.data:
+                traverse_and_add(cur_l1, cur_l2)
+        elif cur_l1.next is None:
+            if cur_l1.data > cur_l2.data and cur_l1.data < cur_l2.next.data:
+                traverse_and_add(cur_l2, cur_l1)
         else:
-            array_of_strings[write_idx] = array_of_strings[cur_idx]
-            write_idx -= 1
-        cur_idx -= 1
-    return final_size
+            if cur_l2.data > cur_l1.data and cur_l2.data < cur_l1.next.data:
+                traverse_and_add(cur_l1, cur_l2)
+            elif cur_l1.data > cur_l2.data and cur_l1.data < cur_l2.next.data:
+                traverse_and_add(cur_l2, cur_l1)
 
 
-def
+# test sets
+
+l1 = ListNode(1, ListNode(2, ListNode(3, ListNode(5, ListNode(6, ListNode(11, ))))))
+l2 = ListNode(4, ListNode(10))
 
 
+def merge_sorted_lls_retry(l1: ListNode, l2: ListNode) -> ListNode:
+    dummy_head = tail = ListNode()
+    while l1 and l2:
+        if l1.data < l2.data:
+            tail.next, l1 = l1, l1.next
+        else:
+            tail.next, l2 = l2, l2.next
+        tail = tail.next
+    tail.next = l1 or l2
+    return dummy_head.next
 
 
+def ll_to_list(l1: ListNode):
+    return_list = []
+    while l1:
+        return_list.append(l1.data)
+        l1 = l1.next
+    return return_list
+
+l3 = merge_sorted_lls_retry(l1, l2)
+ll_to_list(l3)
+# [1, 2, 3, 4, 5, 6, 10, 11]
+
+"""
+7.2. Reverse a Single Sublist
+
+Write a program which takes a singly linked list L and two integers s and f as arguments, and reverses the order of the
+    nodes from the s-th node to f–th node, inclusive. The numbering begins at 1, i.e., the head node is the first node.
+    Do not allocate additional nodes.
+
+# Hint: Focus on the successor fields which have to be updated.
+"""
+
+# 20 mins and fail
+def reverse_sublist(L: ListNode, s: int, f: int) -> ListNode:
+    dummy_head = cur = ListNode(0, L)
+    for _ in range(1, s):
+        cur = cur.next
+
+    sublist_iter = cur.next
+    for _ in range(f - s):
+        temp = cur.next
+        sublist_iter.next,
+
+    while s > 1:
+        cur.data = l1.data
+        cur, l1 = cur.next, l1.next
+        s -= 1
+    while f > 1:
+
+        , l1 = ,l1.next
+        f -= 1
 
 
+    cur.next = another_dummy
+    return dummy_head.next
 
 
+# [1, 2, 3, 4, 5, 6, 10, 11]
+def reverse_sublist_kev(L: ListNode, s: int, f: int) -> ListNode:
+    dummy_head = dummy = ListNode(0, L)
+    start = None
+    for i in range(f):
+        if i == s - 1:
+            start = dummy
+        dummy = dummy.next
+    post = dummy.next
+    prev = dummy
+    temp = start.next
+    for _ in range(f - s + 1):
+        temp = temp.next
+        start.next, prev = prev, temp
+        start = start.next
+    start.next = post
+    return dummy_head.next
 
 
+# retry (7/28/2019)
+def reverse_sublist(L: ListNode, s: int, f: int) -> ListNode:
+    head_dummy = head_pointer = ListNode(0, L)
+    for _ in range(1, s):
+        head_pointer = head_pointer.next
+    head_iter = head_pointer.next
+    for _ in range(0, f - s):
+        temp = head_iter.next
+        head_pointer.next, temp.next, head_iter.next = (
+            temp,
+            head_pointer.next,
+            temp.next
+        )
+    return head_dummy.next
+
+# test
+l1 = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5, ListNode(6, ListNode(7, )))))))
+l3 = reverse_sublist(l1, 3, 6)
+ll_to_list(l3)
 
 
+"""
+7.2. Test for Cyclicity
+Although a linked list is supposed to be a sequence of nodes ending in null, it is possible to create a cycle in a
+    linked list by making the next field of an element reference to one of the earlier nodes.
+
+Write a program that takes the head of a singly linked list and returns null if there does not exist a cycle, and the
+    node at the start of the cycle, if a cycle is present. (You do not know the length of the list in advance).
+
+Hint: Consider using two iterators, one fast and one slow.
+"""
 
 
+def is_cycle(L: ListNode):
+    """
+    Q: Can you have duplicate values in nodes?
+    A: Yes
+
+    O(n * log n), O(n)
+    This solution is actually wrong - it's not returning the start of the cycle - it's just returning the start of the
+        whole list.
+    """
+    dummy_head = pointer = ListNode(0, L)
+    pointer_list = []
+    while pointer.next and pointer.next not in pointer_list:
+        pointer_list.append(pointer)
+        pointer = pointer.next
+    if pointer.next is None:
+        return
+    else:
+        return dummy_head.next
 
 
+l1 = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5, ListNode(6, ListNode(7, )))))))
+l1.next.next.next.next.next.next.next = l1.next.next.next # linking ListNode(7,) with ListNode(4, ...)
 
 
+def is_cycle_book_my_try(L: ListNode):
+    """
+    O(n) and O(1)
+    fast iterator and slow iterator.
+    1. Figure out whether there is a cycle
+    2. If there is a cycle, figure out the cycle length (C)
+    3. Figure out the node where the cycle begins
+    """
+    def calc_cycle_len(end):
+        start, steps = end, 0
+        while True:
+            steps += 1
+            start = start.next
+            if start == end:
+                break
+        return steps
+    slow_node = fast_node = L
+    while fast_node and fast_node.next and fast_node.next.next:
+        slow_node, fast_node = slow_node.next, fast_node.next.next
+        if slow_node is fast_node:
+            back_node = front_node = L
+            for _ in range(calc_cycle_len(slow_node)):
+                front_node = front_node.next
+            while back_node is not front_node:
+                back_node, front_node = back_node.next, front_node.next
+            return back_node
+    return
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+l3 = is_cycle_book_my_try(l1)
 
 
 
