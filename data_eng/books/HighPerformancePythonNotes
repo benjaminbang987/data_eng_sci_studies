@@ -119,7 +119,51 @@ def check_prime(number):
 
 * `number` stored in RAM
 * To calculate `sqrt_number` and `number_float`, send that value over to the CPU.
-* Ideally, send the value once, gets stored in CPU's L1/L2 cache and the CPU would od the cals and then send the values 
+* Ideally, send the value once, gets stored in CPU's L1/L2 cache and the CPU would do the calcs and then send the values
   back to RAM to get stored. Ideal because we minimized the # of reads of the value of `number` from RAM and opted for
   reads from the L1/L2 cache. And we also minimized the number of data transfers via frontside bus, opting
   for faster backside bus instead (connects various caches to the CPU).
+* Also, utilize 'vectorization' of CPU - where it can run independent computations in parallel (no additional time cost).
+
+
+##### Python's VM
+
+* Python abstracts a lot of layer - and it comes at a performance cost.
+* One cost is that vectorization is not immediately achievable.
+* Python is a garbage-collected language - memory is automatically allocated and freed when needed. This creates memory
+  fragmentation that can hurt the transfers to the CPu caches. In addition, at no point is there an opportunity to
+  change the layout of a data structure directly in memory, which means that one transfer on the bus may not contain all
+  the relevant information for a computation, even though it might have all fit within the bus width.
+* Second problem: Python's dynamic types and it not being compiled. Solution: Cython (allows compiling of the code).
+* Finally, the previously mentioned GIL (Global Interpreter Lock) can hurt performance if trying to parallelize this code.
+
+##### So why use Python?
+
+* highly expressive and easy to learn
+* Many important and stable libraries are built-in such as :
+** unicode and bytes: baked into the core language
+** array: memory-efficient arrays for primitive types
+** math: basic mathemetical operations,including some simple statistics
+** sqlite3: a wrapper around the prevalent SQL file-based storage engine SQLite3
+** collections: A wide variety of objects, including deque, counter, and dictionary variants
+** numpy: a numerical Python library( a bedrock library for anything to do with matrices)
+** scipy: trusted scientific libraries (often C and Fortran libraries)
+** pandas: a library for data analysis (similar to R's data frames or an Excel spreadsheet). Built on `scipy` and `numpy`
+** scikit-learn: a default ML library, built on `scipy`
+
+
+# Chapter 2. Profiling to FInd Bottlenecks
+
+## 0. Questions You'll be able to answer after this chapter
+
+1. How cna I identify speed and RAM bottlenecks in my code?
+2. How do I profile CPU and memory usage?
+3. What depth of profiling should I use?
+4. How can I profile a long-running application?
+5. What's happening under the hood with CPython?
+6. How do I keep my code correct while tuning performance?
+
+
+## 1. Profiling Efficiently
+
+First aim: test a representative system to identify what's slow
